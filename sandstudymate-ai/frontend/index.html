@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyMate AI</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>StudyMate AI</h1>
+      <form id="quiz-form">
+        <label for="topic">Topic</label>
+        <input id="topic" name="topic" type="text" placeholder="e.g. biology" />
+
+        <label for="difficulty">Difficulty</label>
+        <select id="difficulty" name="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium" selected>Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+
+        <button type="submit">Generate Questions</button>
+      </form>
+
+      <section id="questions"></section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
