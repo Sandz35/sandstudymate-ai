@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: StudyMate AI infrastructure
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: python3.12
+
+Resources:
+  StudyMateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backend
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.12
+      Events:
+        StudyMateApi:
+          Type: Api
+          Properties:
+            Path: /study
+            Method: get
