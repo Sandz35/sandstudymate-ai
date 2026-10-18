@@ -1,7 +1,21 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.pyc
 *.py[codz]
 *$py.class
+
+# AWS SAM build output
+.aws-sam/
+
+# Node / frontend
+node_modules/
+dist/
+*.local
+
+# Secrets and OS clutter
+.env
+.DS_Store
+
 
 # C extensions
 *.so
