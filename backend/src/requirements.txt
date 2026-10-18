@@ -1,0 +1,2 @@
+# Runtime dependencies for Lambda.
+# boto3 is already included in the Lambda Python runtime, so nothing to add yet.
