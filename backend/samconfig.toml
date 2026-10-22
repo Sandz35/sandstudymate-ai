@@ -1,0 +1,14 @@
+version = 0.1
+
+[default.deploy.parameters]
+stack_name = "sandstudymate-ai"
+resolve_s3 = true
+s3_prefix = "sandstudymate-ai"
+region = "us-east-2"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "BedrockModelId=\"us.anthropic.claude-haiku-4-5-20251001-v1:0\" AllowedOrigins=\"*\""
+image_repositories = []
+
+[default.global.parameters]
+region = "us-east-2"
