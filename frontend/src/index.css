@@ -1,0 +1,51 @@
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #1f2937;
+  background: #fdf8ef;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+h1 { margin: 0; color: #b45309; }
+.tagline { margin: 0; color: #6b7280; }
+
+.start-form { display: flex; flex-direction: column; gap: 12px; }
+.start-form label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+input, select { font: inherit; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; }
+
+button {
+  font: inherit;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #f59e0b;
+  color: #1f2937;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:disabled { opacity: 0.6; cursor: default; }
+.link-button { background: none; padding: 0; color: #b45309; text-decoration: underline; font-weight: 400; }
+
+.status-bar { display: flex; gap: 16px; align-items: center; font-weight: 600; }
+.status-bar .link-button { margin-left: auto; }
+
+.chat { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.bubble { max-width: 85%; padding: 10px 14px; border-radius: 14px; white-space: pre-line; line-height: 1.4; }
+.bubble.bot { align-self: flex-start; background: #ffffff; border: 1px solid #e5e7eb; }
+.bubble.student { align-self: flex-end; background: #fde68a; }
+.thinking { color: #6b7280; font-style: italic; }
+
+.answers { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.answers button { background: #ffffff; border: 2px solid #f59e0b; text-align: left; }
+.answers button:hover { background: #fef3c7; }
+.hint, .answers .link-button { grid-column: 1 / -1; margin: 0; }
+.error { color: #b91c1c; }
