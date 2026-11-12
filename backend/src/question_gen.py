@@ -5,6 +5,7 @@ import os
 import boto3
 
 from adaptive import LEVEL_DESCRIPTIONS
+from guard import check_output
 
 MODEL_ID = os.environ.get(
     "BEDROCK_MODEL_ID", "us.anthropic.claude-haiku-4-5-20251001-v1:0"
@@ -59,7 +60,13 @@ def generate_question(subject, topic, level, recent_questions=None, context=None
         inferenceConfig={"maxTokens": 600, "temperature": 0.8},
     )
     text = response["output"]["message"]["content"][0]["text"]
-    return parse_question(text)
+    question = parse_question(text)
+    allowed, _ = check_output(" ".join(
+        [question["question"], *question["choices"], question["explanation"], question["hint"]]
+    ))
+    if not allowed:
+        raise ValueError("Guardrail blocked the generated question")
+    return question
 
 
 def parse_question(text):
