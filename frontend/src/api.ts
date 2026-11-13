@@ -1,4 +1,4 @@
-import type { AnswerResponse, QuestionResponse, SessionResponse, Subject } from "./types";
+import type { AnswerResponse, ChatResponse, QuestionResponse, SessionResponse, Subject } from "./types";
 
 // Remove a trailing slash so we never call "...com//session"
 const API_URL = (import.meta.env.VITE_API_URL ?? "").replace(/\/$/, "");
@@ -27,3 +27,6 @@ export const getQuestion = (sessionId: string) =>
 
 export const submitAnswer = (sessionId: string, questionId: string, choiceIndex: number) =>
   post<AnswerResponse>("/answer", { sessionId, questionId, choiceIndex });
+
+export const sendChat = (sessionId: string, message: string) =>
+  post<ChatResponse>("/chat", { sessionId, message });

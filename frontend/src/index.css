@@ -49,3 +49,8 @@ button:disabled { opacity: 0.6; cursor: default; }
 .answers button:hover { background: #fef3c7; }
 .hint, .answers .link-button { grid-column: 1 / -1; margin: 0; }
 .error { color: #b91c1c; }
+
+.chat-input { display: flex; gap: 8px; }
+.chat-input input { flex: 1; }
+.suggestions { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: #fff7e6; border: 1px solid #f59e0b; font-weight: 400; padding: 6px 12px; border-radius: 999px; }
