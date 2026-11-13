@@ -4,10 +4,9 @@ version = 0.1
 stack_name = "sandstudymate-ai"
 resolve_s3 = true
 s3_prefix = "sandstudymate-ai"
-region = "us-east-2"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "BedrockModelId=\"us.anthropic.claude-haiku-4-5-20251001-v1:0\" AllowedOrigins=\"*\""
+parameter_overrides = "BedrockModelId=\"us.anthropic.claude-haiku-4-5-20251001-v1:0\" RouterModelId=\"us.amazon.nova-micro-v1:0\" GuardrailId=\"706xj9q8yoh5\" GuardrailVersion=\"1\" AllowedOrigins=\"*\""
 image_repositories = []
 
 [default.global.parameters]

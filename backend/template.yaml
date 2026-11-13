@@ -1,11 +1,20 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: sandstudymate-ai - adaptive Math and Science practice chatbot
+Description: sandstudymate-ai v2 - adaptive practice chatbot with RAG and guardrails
 
 Parameters:
   BedrockModelId:
     Type: String
     Default: us.anthropic.claude-haiku-4-5-20251001-v1:0
+  RouterModelId:
+    Type: String
+    Default: us.amazon.nova-micro-v1:0
+  GuardrailId:
+    Type: String
+    Default: ""
+  GuardrailVersion:
+    Type: String
+    Default: "1"
   AllowedOrigins:
     Type: CommaDelimitedList
     Default: "*"
@@ -32,6 +41,9 @@ Resources:
         AttributeName: expires_at
         Enabled: true
 
+  KnowledgeBucket:
+    Type: AWS::S3::Bucket
+
   HttpApi:
     Type: AWS::Serverless::HttpApi
     Properties:
@@ -52,13 +64,21 @@ Resources:
         Variables:
           TABLE_NAME: !Ref SessionsTable
           BEDROCK_MODEL_ID: !Ref BedrockModelId
+          ROUTER_MODEL_ID: !Ref RouterModelId
+          GUARDRAIL_ID: !Ref GuardrailId
+          GUARDRAIL_VERSION: !Ref GuardrailVersion
+          INDEX_BUCKET: !Ref KnowledgeBucket
+          INDEX_KEY: rag/index.json
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref SessionsTable
+        - S3ReadPolicy:
+            BucketName: !Ref KnowledgeBucket
         - Statement:
             - Effect: Allow
               Action:
                 - bedrock:InvokeModel
+                - bedrock:ApplyGuardrail
               Resource: "*"
       Events:
         StartSession:
@@ -78,6 +98,12 @@ Resources:
           Properties:
             ApiId: !Ref HttpApi
             Path: /answer
+            Method: POST
+        Chat:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /chat
             Method: POST
 
   FrontendBucket:
@@ -109,9 +135,10 @@ Resources:
 
 Outputs:
   ApiUrl:
-    Description: Base URL for the frontend's VITE_API_URL
     Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
   FrontendBucketName:
     Value: !Ref FrontendBucket
   WebsiteUrl:
     Value: !GetAtt FrontendBucket.WebsiteURL
+  KnowledgeBucketName:
+    Value: !Ref KnowledgeBucket
