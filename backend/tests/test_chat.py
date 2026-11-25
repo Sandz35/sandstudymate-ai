@@ -56,3 +56,20 @@ def test_long_message_rejected(monkeypatch):
     sid = setup(monkeypatch)
     status, _ = call("POST /chat", {"sessionId": sid, "message": "x" * 301})
     assert status == 400
+
+def test_router_miss_is_rescued_by_notes(monkeypatch):
+    sid = setup(monkeypatch, {"in_scope": False, "reply": "Space is cool! Let's learn about it."})
+    monkeypatch.setattr(app, "retrieve", lambda query, subject=None: [
+        {"score": 0.62, "id": "x", "source": "science/universe-solar-system/03_planets.md", "text": "Planets orbit the Sun."}])
+    _, body = call("POST /chat", {"sessionId": sid, "message": "Deep Space"})
+    assert body["type"] == "topic_set"
+    assert body["subject"] == "science"
+    assert "question" in body
+
+
+def test_weak_note_match_still_redirects(monkeypatch):
+    sid = setup(monkeypatch, {"in_scope": False, "reply": "Let's try a math topic!"})
+    monkeypatch.setattr(app, "retrieve", lambda query, subject=None: [
+        {"score": 0.40, "id": "x", "source": "science/electricity/01.md", "text": "..."}])
+    _, body = call("POST /chat", {"sessionId": sid, "message": "who is the best singer"})
+    assert body["type"] == "redirect"

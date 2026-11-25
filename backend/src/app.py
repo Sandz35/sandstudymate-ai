@@ -5,6 +5,14 @@ import logging
 import time
 import uuid
 
+import os
+
+IN_LAMBDA = "AWS_LAMBDA_FUNCTION_NAME" in os.environ  # False in pytest and debug_handler.py
+if IN_LAMBDA:
+    from aws_xray_sdk.core import patch_all, xray_recorder
+    patch_all()  # every boto3 call (DynamoDB, Bedrock, S3, SSM) becomes a timed step in the trace
+
+
 from adaptive import SUBJECT_TOPICS, Progress, pick_topic, update_progress
 from guard import check_input
 from question_gen import generate_question
@@ -18,6 +26,7 @@ logger.setLevel(logging.INFO)
 STORE = get_store()
 SESSION_TTL_SECONDS = 7 * 24 * 60 * 60
 MAX_MESSAGE_CHARS = 300
+RESCUE_MIN_SCORE = 0.45  # stricter than retrieval's floor: only rescue clear matches
 
 
 def _response(status, body):
@@ -111,6 +120,27 @@ def next_question(data):
     status, body = _new_question(item)
     return _response(status, body)
 
+def _rescue_route(message):
+    """Second opinion when the router says 'off topic': if the study notes clearly match, it's in scope."""
+    try:
+        hits = retrieve(message)
+    except Exception:
+        logger.exception("Rescue retrieval failed")
+        return None
+    best = hits[0] if hits else {}
+    if best.get("score", 0) < RESCUE_MIN_SCORE:
+        return None
+    subject = best.get("source", "").split("/")[0]
+    if subject not in SUBJECT_TOPICS:
+        return None
+    topic = message[:60]
+    return {
+        "in_scope": True,
+        "subject": subject,
+        "topic": topic,
+        "search_query": message[:200],
+        "reply": f"Great choice! Let's practice {topic}.",
+    }
 
 def chat(data):
     item = STORE.get(str(data.get("sessionId", "")))
@@ -135,7 +165,11 @@ def chat(data):
             "reply": "Hmm, I didn't catch that. Try something like 'percentages' or 'the water cycle'.",
         })
     if not route["in_scope"]:
-        return _response(200, {"type": "redirect", "reply": route["reply"]})
+        rescued = _rescue_route(message)
+        if rescued is None:
+            return _response(200, {"type": "redirect", "reply": route["reply"]})
+        logger.info("Router said off-topic but notes matched; rescued as %s", rescued["subject"])
+        route = rescued
 
     item["subject"] = route["subject"]
     item["custom_topic"] = route["topic"]
@@ -187,17 +221,42 @@ ROUTES = {
     "POST /chat": chat,
 }
 
+def _tag_trace(route_key, session, status):
+    """Attach searchable labels to this request's X-Ray trace (Lambda only)."""
+    if not IN_LAMBDA:
+        return
+    sub = xray_recorder.begin_subsegment("request_summary")
+    try:
+        sub.put_annotation("session_id", session)
+        sub.put_annotation("route", route_key)
+        sub.put_annotation("status", status)
+    finally:
+        xray_recorder.end_subsegment()
+
 
 def handler(event, context):
-    route = ROUTES.get(event.get("routeKey", ""))
+    started = time.time()
+    route_key = event.get("routeKey", "")
+    apigw_id = event.get("requestContext", {}).get("requestId")
+    route = ROUTES.get(route_key)
     if route is None:
         return _response(404, {"error": "Unknown route"})
     try:
         data = _read_body(event)
     except (ValueError, TypeError):
         return _response(400, {"error": "Body must be valid JSON"})
+    if not isinstance(data, dict):
+        return _response(400, {"error": "Body must be a JSON object"})
     try:
-        return route(data)
-    except Exception:
-        logger.exception("Unhandled error on %s", event.get("routeKey"))
-        return _response(500, {"error": "Something went wrong"})
+        resp = route(data)
+    except Exception:  # log the full error to CloudWatch, return a safe message
+        logger.exception("Unhandled error on %s", route_key)
+        resp = _response(500, {"error": "Something went wrong"})
+    # /session has no sessionId in the request, so take it from the response
+    session = str(data.get("sessionId") or json.loads(resp["body"]).get("sessionId", ""))
+    logger.info(
+        "TRACE route=%s session=%s apigw_id=%s status=%s ms=%d",
+        route_key, session, apigw_id, resp["statusCode"], (time.time() - started) * 1000,
+    )
+    _tag_trace(route_key, session, resp["statusCode"])
+    return resp

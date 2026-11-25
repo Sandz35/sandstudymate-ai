@@ -49,6 +49,7 @@ button:disabled { opacity: 0.6; cursor: default; }
 .answers button:hover { background: #fef3c7; }
 .hint, .answers .link-button { grid-column: 1 / -1; margin: 0; }
 .error { color: #b91c1c; }
+.answers .link-button { background: none; border: none; text-align: left; }
 
 .chat-input { display: flex; gap: 8px; }
 .chat-input input { flex: 1; }

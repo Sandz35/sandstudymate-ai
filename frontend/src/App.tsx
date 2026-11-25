@@ -130,7 +130,7 @@ export default function App() {
         <form className="start-form" onSubmit={handleStart}>
           <label>
             Your name
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Sandy" maxLength={30} />
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" maxLength={30} />
           </label>
           <label>
             Subject
@@ -176,15 +176,9 @@ export default function App() {
               <button className="link-button" onClick={() => setShowHint(true)}>Show a hint</button>
             ))}
         </section>
-      )}
+      )}                                 {/* ← line 182, end of answers */}
 
-{question && (
-        <section className="answers">
-          ...
-        </section>
-      )}                                   {/* ← line 182, end of answers */}
-
-      <form className="chat-input" onSubmit={handleChat}>      {/* ← paste starts here */}
+      <form className="chat-input" onSubmit={handleChat}>     
         <input
           value={chatText}
           onChange={(e) => setChatText(e.target.value)}
@@ -201,7 +195,7 @@ export default function App() {
           </button>
         ))}
       </div> 
-      
+
       {error && (
         <p className="error">
           {error}{" "}

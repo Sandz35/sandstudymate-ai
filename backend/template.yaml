@@ -21,6 +21,7 @@ Parameters:
 
 Globals:
   Function:
+    Tracing: Active
     Runtime: python3.12
     Architectures: [arm64]
     Timeout: 30
