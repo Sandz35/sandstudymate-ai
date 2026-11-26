@@ -1,12 +1,12 @@
-"""Ask Amazon Bedrock to write one multiple-choice question, then validate it."""
+"""Ask Amazon Bedrock to write one multiple-choice question, grounded in study notes."""
 import json
 import os
 
 import boto3
 
 from adaptive import LEVEL_DESCRIPTIONS
+from guard import check_output
 
-# Override with an environment variable if your console shows a newer model ID.
 MODEL_ID = os.environ.get(
     "BEDROCK_MODEL_ID", "us.anthropic.claude-haiku-4-5-20251001-v1:0"
 )
@@ -19,6 +19,8 @@ Rules:
 - The question is under 60 words.
 - The explanation teaches the idea in 1-3 short sentences.
 - The hint nudges without giving the answer away.
+- If study notes are given, base the question on them and use the same words and methods.
+- If the topic is above 5th grade (for example trigonometry), ask about its simplest beginner idea.
 Reply with ONLY a JSON object, no other text, in this exact shape:
 {"question": "...", "choices": ["...", "...", "...", "..."], "answer_index": 0, "explanation": "...", "hint": "..."}
 answer_index is the position (0-3) of the correct choice."""
@@ -27,24 +29,30 @@ _client = None
 
 
 def _bedrock():
-    """Create the Bedrock client once and reuse it (faster on warm Lambdas)."""
     global _client
     if _client is None:
         _client = boto3.client("bedrock-runtime")
     return _client
 
 
-def generate_question(subject, topic, level, recent_questions=None):
-    """Return a dict: question, choices, answer_index, explanation, hint."""
+def build_prompt(subject, topic, level, recent_questions=None, context=None):
     prompt = (
         f"Subject: {subject}\n"
         f"Topic: {topic}\n"
         f"Difficulty: level {level} of 5 ({LEVEL_DESCRIPTIONS[level]})\n"
     )
+    if context:
+        prompt += "\nStudy notes (the source of truth for this question):\n"
+        prompt += "\n---\n".join(context) + "\n"
     if recent_questions:
-        prompt += "Do not repeat any of these recent questions:\n"
+        prompt += "\nDo not repeat any of these recent questions:\n"
         prompt += "\n".join(f"- {q}" for q in recent_questions[-5:])
+    return prompt
 
+
+def generate_question(subject, topic, level, recent_questions=None, context=None):
+    """Return a dict: question, choices, answer_index, explanation, hint."""
+    prompt = build_prompt(subject, topic, level, recent_questions, context)
     response = _bedrock().converse(
         modelId=MODEL_ID,
         system=[{"text": SYSTEM_PROMPT}],
@@ -52,7 +60,13 @@ def generate_question(subject, topic, level, recent_questions=None):
         inferenceConfig={"maxTokens": 600, "temperature": 0.8},
     )
     text = response["output"]["message"]["content"][0]["text"]
-    return parse_question(text)
+    question = parse_question(text)
+    allowed, _ = check_output(" ".join(
+        [question["question"], *question["choices"], question["explanation"], question["hint"]]
+    ))
+    if not allowed:
+        raise ValueError("Guardrail blocked the generated question")
+    return question
 
 
 def parse_question(text):
@@ -83,4 +97,3 @@ def parse_question(text):
         "explanation": str(data.get("explanation", "")),
         "hint": str(data.get("hint", "")),
     }
-

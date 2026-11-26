@@ -1,0 +1,42 @@
+{
+  "name": "sandstudymate-kids",
+  "description": "Safety rules for a 5th grade Math and Science practice app",
+  "blockedInputMessaging": "Let's keep to Math and Science practice! Try a topic like fractions or the water cycle.",
+  "blockedOutputsMessaging": "Oops, let's try a different practice question.",
+  "contentPolicyConfig": {
+    "filtersConfig": [
+      { "type": "SEXUAL", "inputStrength": "HIGH", "outputStrength": "HIGH" },
+      { "type": "VIOLENCE", "inputStrength": "HIGH", "outputStrength": "HIGH" },
+      { "type": "HATE", "inputStrength": "HIGH", "outputStrength": "HIGH" },
+      { "type": "INSULTS", "inputStrength": "HIGH", "outputStrength": "HIGH" },
+      { "type": "MISCONDUCT", "inputStrength": "HIGH", "outputStrength": "HIGH" },
+      { "type": "PROMPT_ATTACK", "inputStrength": "HIGH", "outputStrength": "NONE" }
+    ]
+  },
+  "topicPolicyConfig": {
+    "topicsConfig": [
+      {
+        "name": "Dangerous-activities",
+        "definition": "Instructions for weapons, explosives, poisons, drugs, fire-starting or experiments that could hurt someone.",
+        "examples": ["how do I make a bomb", "which chemicals make poison gas", "how to start a fire at home"],
+        "type": "DENY"
+      },
+      {
+        "name": "Grown-up-topics",
+        "definition": "Dating, gambling, alcohol, politics or celebrity gossip, which are not school learning topics.",
+        "examples": ["who is dating who", "how do I bet on a game", "which party should win the election"],
+        "type": "DENY"
+      }
+    ]
+  },
+  "sensitiveInformationPolicyConfig": {
+    "piiEntitiesConfig": [
+      { "type": "EMAIL", "action": "BLOCK" },
+      { "type": "PHONE", "action": "BLOCK" },
+      { "type": "ADDRESS", "action": "BLOCK" }
+    ]
+  },
+  "wordPolicyConfig": {
+    "managedWordListsConfig": [{ "type": "PROFANITY" }]
+  }
+}

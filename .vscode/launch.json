@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug backend flow",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/scripts/debug_handler.py",
+      "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "AWS_REGION": "us-east-2",
+        "PYTHONPATH": "${workspaceFolder}/backend/src"
+      },
+      "justMyCode": true,
+      "console": "integratedTerminal"
+    }
+  ]
+}

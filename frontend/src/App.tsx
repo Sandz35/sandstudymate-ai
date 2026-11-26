@@ -1,9 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
-import { getQuestion, startSession, submitAnswer } from "./api";
+import { getQuestion, sendChat, startSession, submitAnswer } from "./api";
 import type { ChatMessage, Progress, QuestionResponse, Subject } from "./types";
 
 let nextMessageId = 1;
+
+const SUGGESTIONS = ["Percentages", "Basic trigonometry", "The water cycle", "Fractions"];
+
+function questionText(q: QuestionResponse) {
+  const source = q.grounded ? " · from study notes" : "";
+  return `Level ${q.level} · ${q.topic}${source}\n${q.question}`;
+}
+
 
 export default function App() {
   const [name, setName] = useState("");
@@ -15,6 +23,7 @@ export default function App() {
   const [showHint, setShowHint] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [chatText, setChatText] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Keep the newest chat bubble in view
@@ -33,7 +42,7 @@ export default function App() {
     try {
       const q = await getQuestion(id);
       setQuestion(q);
-      addMessage("bot", `Level ${q.level} · ${q.topic}\n${q.question}`);
+      addMessage("bot", questionText(q));
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -82,6 +91,29 @@ export default function App() {
     }
   }
 
+  async function handleChat(event: FormEvent) {
+    event.preventDefault();
+    const message = chatText.trim();
+    if (!sessionId || !message) return;
+    setChatText("");
+    addMessage("student", message);
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await sendChat(sessionId, message);
+      addMessage("bot", result.reply);
+      if (result.type === "topic_set" && result.question) {
+        setShowHint(false);
+        setQuestion(result.question); // replaces any open question
+        addMessage("bot", questionText(result.question));
+      }
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function handleRestart() {
     setSessionId(null);
     setProgress(null);
@@ -98,7 +130,7 @@ export default function App() {
         <form className="start-form" onSubmit={handleStart}>
           <label>
             Your name
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Sandy" maxLength={30} />
+            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" maxLength={30} />
           </label>
           <label>
             Subject
@@ -144,7 +176,25 @@ export default function App() {
               <button className="link-button" onClick={() => setShowHint(true)}>Show a hint</button>
             ))}
         </section>
-      )}
+      )}                                 {/* ← line 182, end of answers */}
+
+      <form className="chat-input" onSubmit={handleChat}>     
+        <input
+          value={chatText}
+          onChange={(e) => setChatText(e.target.value)}
+          placeholder="What do you want to practice? e.g. percentages"
+          maxLength={300}
+          disabled={loading}
+        />
+        <button type="submit" disabled={loading || !chatText.trim()}>Send</button>
+      </form>
+      <div className="suggestions">
+        {SUGGESTIONS.map((s) => (
+          <button key={s} type="button" className="chip" onClick={() => setChatText(s)}>
+            {s}
+          </button>
+        ))}
+      </div> 
 
       {error && (
         <p className="error">

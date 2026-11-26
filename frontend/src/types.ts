@@ -22,6 +22,7 @@ export interface QuestionResponse {
   question: string;
   choices: string[];
   hint: string;
+  grounded: boolean;
 }
 
 export interface AnswerResponse {
@@ -36,4 +37,12 @@ export interface ChatMessage {
   id: number;
   from: "bot" | "student";
   text: string;
+}
+
+export interface ChatResponse {
+  type: "topic_set" | "redirect" | "blocked" | "unclear";
+  reply: string;
+  topic?: string;
+  subject?: Subject;
+  question?: QuestionResponse;
 }
