@@ -1,0 +1,32 @@
+# Retrieval golden set: a search query, its subject, and the note(s) that should come back.
+# A case is a hit when any expected note is in the top 3. "expect": [] means nothing should match.
+{"id": "r01", "subject": "math", "query": "finding 20 percent of a number", "expect": ["math/percentages/percentages.md"]}
+{"id": "r02", "subject": "math", "query": "sale prices and discounts using percents", "expect": ["math/percentages/percentages.md"]}
+{"id": "r03", "subject": "math", "query": "the longest side of a right triangle", "expect": ["math/intro-trigonometry/intro-trigonometry.md"]}
+{"id": "r04", "subject": "math", "query": "sine cosine and tangent as ratios", "expect": ["math/intro-trigonometry/intro-trigonometry.md"]}
+{"id": "r05", "subject": "science", "query": "why does it rain", "expect": ["science/water-cycle/water-cycle.md"]}
+{"id": "r06", "subject": "science", "query": "water vapor cooling into clouds", "expect": ["science/water-cycle/water-cycle.md"]}
+{"id": "r07", "subject": "science", "query": "why a balloon rubbed on hair sticks to a wall", "expect": ["science/electricity/01_what_is_electricity.md", "science/electricity/10_hands_on_activities.md"]}
+{"id": "r08", "subject": "science", "query": "what a circuit needs for a bulb to light", "expect": ["science/electricity/02_electric_circuits.md", "science/electricity/10_hands_on_activities.md"]}
+{"id": "r09", "subject": "science", "query": "materials that let electricity flow and materials that block it", "expect": ["science/electricity/03_conductors_and_insulators.md"]}
+{"id": "r10", "subject": "science", "query": "difference between series and parallel circuits", "expect": ["science/electricity/04_series_and_parallel_circuits.md"]}
+{"id": "r11", "subject": "science", "query": "staying safe around electricity and water", "expect": ["science/electricity/06_electrical_safety.md"]}
+{"id": "r12", "subject": "science", "query": "how an electromagnet works", "expect": ["science/electricity/07_magnets_and_electromagnets.md"]}
+{"id": "r13", "subject": "science", "query": "cells tissues and organs", "expect": ["science/human-body/01_cells_tissues_and_organs.md"]}
+{"id": "r14", "subject": "science", "query": "how bones and muscles help us move", "expect": ["science/human-body/02_skeletal_and_muscular_systems.md"]}
+{"id": "r15", "subject": "science", "query": "where food goes after we swallow it", "expect": ["science/human-body/03_digestive_system.md"]}
+{"id": "r16", "subject": "science", "query": "how the heart pumps blood and the lungs breathe", "expect": ["science/human-body/04_respiratory_and_circulatory_systems.md"]}
+{"id": "r17", "subject": "science", "query": "how the brain sends messages and the five senses", "expect": ["science/human-body/05_nervous_system_and_senses.md"]}
+{"id": "r18", "subject": "science", "query": "how the body fights germs", "expect": ["science/human-body/06_excretory_and_immune_systems.md"]}
+{"id": "r19", "subject": "science", "query": "why scientists give living things two-part names", "expect": ["science/scientific-names/01_why_scientific_names.md"]}
+{"id": "r20", "subject": "science", "query": "the scientific name of a lion", "expect": ["science/scientific-names/02_animal_scientific_names.md", "science/scientific-names/05_scientific_name_practice.md"]}
+{"id": "r21", "subject": "science", "query": "levels of classification from kingdom to species", "expect": ["science/scientific-names/04_classifying_living_things.md"]}
+{"id": "r22", "subject": "science", "query": "what a galaxy is", "expect": ["science/universe-solar-system/01_universe_and_galaxies.md"]}
+{"id": "r23", "subject": "science", "query": "why the Sun is a star", "expect": ["science/universe-solar-system/02_sun_and_stars.md"]}
+{"id": "r24", "subject": "science", "query": "the order of the planets from the Sun", "expect": ["science/universe-solar-system/03_planets.md"]}
+{"id": "r25", "subject": "science", "query": "why we have seasons", "expect": ["science/universe-solar-system/04_orbits_rotation_and_seasons.md"]}
+{"id": "r26", "subject": "science", "query": "phases of the Moon and eclipses", "expect": ["science/universe-solar-system/05_moon_phases_and_eclipses.md"]}
+{"id": "r27", "subject": "science", "query": "the difference between a comet and a meteor", "expect": ["science/universe-solar-system/06_small_solar_system_bodies.md"]}
+{"id": "n01", "subject": "science", "query": "who won the football game", "expect": []}
+{"id": "n02", "subject": "math", "query": "best pizza toppings", "expect": []}
+{"id": "n03", "subject": "science", "query": "how to bake a chocolate cake", "expect": []}

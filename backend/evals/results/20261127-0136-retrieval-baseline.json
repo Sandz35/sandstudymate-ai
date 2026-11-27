@@ -1,0 +1,556 @@
+{
+  "summary": {
+    "label": "baseline",
+    "min_score": 0.37,
+    "cases": 30,
+    "hit_at_1": 0.926,
+    "hit_at_3": 1.0,
+    "mrr": 0.963,
+    "offtopic_rejected": 1.0,
+    "cost_usd": 0.0,
+    "models": {
+      "titan-embed-text-v2": {
+        "calls": 30,
+        "in": 229,
+        "out": 0,
+        "ms": 9485
+      }
+    },
+    "guardrail_units": 0
+  },
+  "cases": [
+    {
+      "id": "r01",
+      "query": "finding 20 percent of a number",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "math/percentages/percentages.md",
+          "score": 0.639
+        },
+        {
+          "source": "math/percentages/percentages.md",
+          "score": 0.479
+        },
+        {
+          "source": "math/percentages/percentages.md",
+          "score": 0.412
+        }
+      ]
+    },
+    {
+      "id": "r02",
+      "query": "sale prices and discounts using percents",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "math/percentages/percentages.md",
+          "score": 0.635
+        },
+        {
+          "source": "math/percentages/percentages.md",
+          "score": 0.431
+        }
+      ]
+    },
+    {
+      "id": "r03",
+      "query": "the longest side of a right triangle",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "math/intro-trigonometry/intro-trigonometry.md",
+          "score": 0.678
+        },
+        {
+          "source": "math/intro-trigonometry/intro-trigonometry.md",
+          "score": 0.595
+        },
+        {
+          "source": "math/intro-trigonometry/intro-trigonometry.md",
+          "score": 0.501
+        }
+      ]
+    },
+    {
+      "id": "r04",
+      "query": "sine cosine and tangent as ratios",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "math/intro-trigonometry/intro-trigonometry.md",
+          "score": 0.768
+        }
+      ]
+    },
+    {
+      "id": "r05",
+      "query": "why does it rain",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/water-cycle/water-cycle.md",
+          "score": 0.388
+        },
+        {
+          "source": "science/universe-solar-system/04_orbits_rotation_and_seasons.md",
+          "score": 0.386
+        }
+      ]
+    },
+    {
+      "id": "r06",
+      "query": "water vapor cooling into clouds",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/water-cycle/water-cycle.md",
+          "score": 0.564
+        },
+        {
+          "source": "science/water-cycle/water-cycle.md",
+          "score": 0.421
+        }
+      ]
+    },
+    {
+      "id": "r07",
+      "query": "why a balloon rubbed on hair sticks to a wall",
+      "ok": true,
+      "rank": 2,
+      "top": [
+        {
+          "source": "science/electricity/09_practice_questions.md",
+          "score": 0.858
+        },
+        {
+          "source": "science/electricity/01_what_is_electricity.md",
+          "score": 0.613
+        },
+        {
+          "source": "science/electricity/01_what_is_electricity.md",
+          "score": 0.513
+        }
+      ]
+    },
+    {
+      "id": "r08",
+      "query": "what a circuit needs for a bulb to light",
+      "ok": true,
+      "rank": 2,
+      "top": [
+        {
+          "source": "science/electricity/09_practice_questions.md",
+          "score": 0.714
+        },
+        {
+          "source": "science/electricity/10_hands_on_activities.md",
+          "score": 0.575
+        },
+        {
+          "source": "science/electricity/02_electric_circuits.md",
+          "score": 0.559
+        }
+      ]
+    },
+    {
+      "id": "r09",
+      "query": "materials that let electricity flow and materials that block it",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/electricity/03_conductors_and_insulators.md",
+          "score": 0.461
+        },
+        {
+          "source": "science/electricity/03_conductors_and_insulators.md",
+          "score": 0.445
+        },
+        {
+          "source": "science/electricity/03_conductors_and_insulators.md",
+          "score": 0.42
+        }
+      ]
+    },
+    {
+      "id": "r10",
+      "query": "difference between series and parallel circuits",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/electricity/04_series_and_parallel_circuits.md",
+          "score": 0.622
+        },
+        {
+          "source": "science/electricity/04_series_and_parallel_circuits.md",
+          "score": 0.611
+        },
+        {
+          "source": "science/electricity/04_series_and_parallel_circuits.md",
+          "score": 0.605
+        }
+      ]
+    },
+    {
+      "id": "r11",
+      "query": "staying safe around electricity and water",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/electricity/06_electrical_safety.md",
+          "score": 0.66
+        },
+        {
+          "source": "science/electricity/06_electrical_safety.md",
+          "score": 0.656
+        },
+        {
+          "source": "science/electricity/06_electrical_safety.md",
+          "score": 0.635
+        }
+      ]
+    },
+    {
+      "id": "r12",
+      "query": "how an electromagnet works",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/electricity/07_magnets_and_electromagnets.md",
+          "score": 0.737
+        },
+        {
+          "source": "science/electricity/07_magnets_and_electromagnets.md",
+          "score": 0.551
+        },
+        {
+          "source": "science/electricity/09_practice_questions.md",
+          "score": 0.453
+        }
+      ]
+    },
+    {
+      "id": "r13",
+      "query": "cells tissues and organs",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/human-body/01_cells_tissues_and_organs.md",
+          "score": 0.665
+        },
+        {
+          "source": "science/human-body/01_cells_tissues_and_organs.md",
+          "score": 0.517
+        },
+        {
+          "source": "science/human-body/01_cells_tissues_and_organs.md",
+          "score": 0.516
+        }
+      ]
+    },
+    {
+      "id": "r14",
+      "query": "how bones and muscles help us move",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/human-body/02_skeletal_and_muscular_systems.md",
+          "score": 0.706
+        },
+        {
+          "source": "science/human-body/02_skeletal_and_muscular_systems.md",
+          "score": 0.596
+        },
+        {
+          "source": "science/human-body/02_skeletal_and_muscular_systems.md",
+          "score": 0.576
+        }
+      ]
+    },
+    {
+      "id": "r15",
+      "query": "where food goes after we swallow it",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/human-body/03_digestive_system.md",
+          "score": 0.636
+        },
+        {
+          "source": "science/human-body/03_digestive_system.md",
+          "score": 0.468
+        },
+        {
+          "source": "science/human-body/03_digestive_system.md",
+          "score": 0.414
+        }
+      ]
+    },
+    {
+      "id": "r16",
+      "query": "how the heart pumps blood and the lungs breathe",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/human-body/04_respiratory_and_circulatory_systems.md",
+          "score": 0.588
+        },
+        {
+          "source": "science/human-body/04_respiratory_and_circulatory_systems.md",
+          "score": 0.565
+        },
+        {
+          "source": "science/human-body/04_respiratory_and_circulatory_systems.md",
+          "score": 0.412
+        }
+      ]
+    },
+    {
+      "id": "r17",
+      "query": "how the brain sends messages and the five senses",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/human-body/05_nervous_system_and_senses.md",
+          "score": 0.489
+        },
+        {
+          "source": "science/human-body/05_nervous_system_and_senses.md",
+          "score": 0.434
+        },
+        {
+          "source": "science/human-body/05_nervous_system_and_senses.md",
+          "score": 0.42
+        }
+      ]
+    },
+    {
+      "id": "r18",
+      "query": "how the body fights germs",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/human-body/06_excretory_and_immune_systems.md",
+          "score": 0.595
+        },
+        {
+          "source": "science/human-body/06_excretory_and_immune_systems.md",
+          "score": 0.5
+        }
+      ]
+    },
+    {
+      "id": "r19",
+      "query": "why scientists give living things two-part names",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/scientific-names/01_why_scientific_names.md",
+          "score": 0.631
+        },
+        {
+          "source": "science/scientific-names/01_why_scientific_names.md",
+          "score": 0.604
+        },
+        {
+          "source": "science/scientific-names/01_why_scientific_names.md",
+          "score": 0.601
+        }
+      ]
+    },
+    {
+      "id": "r20",
+      "query": "the scientific name of a lion",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/scientific-names/02_animal_scientific_names.md",
+          "score": 0.864
+        },
+        {
+          "source": "science/scientific-names/02_animal_scientific_names.md",
+          "score": 0.455
+        },
+        {
+          "source": "science/scientific-names/02_animal_scientific_names.md",
+          "score": 0.401
+        }
+      ]
+    },
+    {
+      "id": "r21",
+      "query": "levels of classification from kingdom to species",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/scientific-names/04_classifying_living_things.md",
+          "score": 0.61
+        },
+        {
+          "source": "science/scientific-names/04_classifying_living_things.md",
+          "score": 0.486
+        },
+        {
+          "source": "science/scientific-names/04_classifying_living_things.md",
+          "score": 0.448
+        }
+      ]
+    },
+    {
+      "id": "r22",
+      "query": "what a galaxy is",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/universe-solar-system/01_universe_and_galaxies.md",
+          "score": 0.889
+        },
+        {
+          "source": "science/universe-solar-system/01_universe_and_galaxies.md",
+          "score": 0.456
+        },
+        {
+          "source": "science/universe-solar-system/01_universe_and_galaxies.md",
+          "score": 0.374
+        }
+      ]
+    },
+    {
+      "id": "r23",
+      "query": "why the Sun is a star",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/universe-solar-system/02_sun_and_stars.md",
+          "score": 0.861
+        },
+        {
+          "source": "science/universe-solar-system/02_sun_and_stars.md",
+          "score": 0.537
+        },
+        {
+          "source": "science/universe-solar-system/02_sun_and_stars.md",
+          "score": 0.457
+        }
+      ]
+    },
+    {
+      "id": "r24",
+      "query": "the order of the planets from the Sun",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/universe-solar-system/03_planets.md",
+          "score": 0.898
+        },
+        {
+          "source": "science/universe-solar-system/03_planets.md",
+          "score": 0.58
+        },
+        {
+          "source": "science/universe-solar-system/03_planets.md",
+          "score": 0.559
+        }
+      ]
+    },
+    {
+      "id": "r25",
+      "query": "why we have seasons",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/universe-solar-system/04_orbits_rotation_and_seasons.md",
+          "score": 0.8
+        },
+        {
+          "source": "science/universe-solar-system/04_orbits_rotation_and_seasons.md",
+          "score": 0.434
+        }
+      ]
+    },
+    {
+      "id": "r26",
+      "query": "phases of the Moon and eclipses",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/universe-solar-system/05_moon_phases_and_eclipses.md",
+          "score": 0.769
+        },
+        {
+          "source": "science/universe-solar-system/05_moon_phases_and_eclipses.md",
+          "score": 0.762
+        },
+        {
+          "source": "science/universe-solar-system/05_moon_phases_and_eclipses.md",
+          "score": 0.72
+        }
+      ]
+    },
+    {
+      "id": "r27",
+      "query": "the difference between a comet and a meteor",
+      "ok": true,
+      "rank": 1,
+      "top": [
+        {
+          "source": "science/universe-solar-system/06_small_solar_system_bodies.md",
+          "score": 0.563
+        },
+        {
+          "source": "science/universe-solar-system/06_small_solar_system_bodies.md",
+          "score": 0.527
+        },
+        {
+          "source": "science/universe-solar-system/06_small_solar_system_bodies.md",
+          "score": 0.491
+        }
+      ]
+    },
+    {
+      "id": "n01",
+      "query": "who won the football game",
+      "ok": true,
+      "rank": 0,
+      "top": []
+    },
+    {
+      "id": "n02",
+      "query": "best pizza toppings",
+      "ok": true,
+      "rank": 0,
+      "top": []
+    },
+    {
+      "id": "n03",
+      "query": "how to bake a chocolate cake",
+      "ok": true,
+      "rank": 0,
+      "top": []
+    }
+  ]
+}
